@@ -2,35 +2,64 @@
 Python Web Development Techdegree
 Project 1 - Number Guessing Game
 --------------------------------
-
-For this first project we will be using Workspaces. 
-
-NOTE: If you strongly prefer to work locally on your own computer, you can totally do that by clicking: File -> Download Workspace in the file menu after you fork the snapshot of this workspace.
-
 """
 
 import random
 
+# creating a list to store high scores
+high_scores = []
 
 def start_game():
-    """Psuedo-code Hints
+  # setting the play_again variable to yes
+  play_again = "y"
+  
+  print("Hello and welcome to The Guessing Game!!")
+  
+  # checking whether the player would like to play the game again. This will happen once by default
+  while play_again != "n":
+    # using the randint function from random to choose a random number between 1 and 10
+    answer = random.randint(1,10)
+    # print out the answer to hep with testing
+#    print("The answer is {}.".format(answer))
+    # print out the high scores list to help with testing
+#    print(high_scores)
+    guess = 0
+    attempt = 0
     
-    When the program starts, we want to:
-    ------------------------------------
-    1. Display an intro/welcome message to the player.
-    2. Store a random number as the answer/solution.
-    3. Continuously prompt the player for a guess.
-      a. If the guess greater than the solution, display to the player "It's lower".
-      b. If the guess is less than the solution, display to the player "It's higher".
+    while guess != answer:
+      # catching an error is the user does not input an integer
+      try:
+        guess = int(input("Pick a number between 1 and 10:  "))
+      except ValueError:
+        print("Hmm.. something went wrong. Try choosing a number between 1 and 10")
+      else:
     
-    4. Once the guess is correct, stop looping, inform the user they "Got it"
-         and show how many attempts it took them to get the correct number.
-    5. Let the player know the game is ending, or something that indicates the game is over.
-    
-    ( You can add more features/enhancements if you'd like to. )
-    """
-    # write your code inside this function.
-
+        # the first check is to see if the guess is within the expected range
+        if guess < 1 or guess > 10:
+          print("Your number should be between 1 and 10")
+        # the second check is to see if the guess is less than the answer
+        elif guess > answer:
+          attempt += 1
+          print("It's lower")
+        # the third check is to see if the guess is more than the answer
+        elif guess < answer:
+          attempt += 1
+          print("It's higher")
+        # finally we can assert that the user correctly identified the answer
+        # we output the number of attemps it took the user to guess the answer
+        # we then output the current lowest high score
+        # finally ask the user if they want to play again
+        else:
+          attempt += 1
+          high_scores.append(attempt)
+          print("You got it!")
+          print("It took you {} guesses to find the answer.".format(attempt))
+          print("The high score is {}.".format(min(high_scores)))
+          play_again = input("Would you like to play again? (y/n):  ")
+  # if the user no longer wants to play this will break out of the loop/function        
+  else:
+    if play_again == "n":
+      print("Thank you for playing!")
 
 
 # Kick off the program by calling the start_game function.
